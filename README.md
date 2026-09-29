@@ -1,5 +1,7 @@
 # Heart Disease Risk Prediction - MLOps Pipeline
 
+**Author:** Prajwal Shetty K P (BITS ID: 2025AE05434)
+
 End-to-end MLOps project (BITS Pilani, MLOps AIMLCZG523, Assignment 01): a classifier that predicts
 heart disease from the UCI Heart Disease dataset, delivered with experiment tracking, automated
 tests and CI/CD, a Docker container, a Kubernetes deployment and Prometheus/Grafana monitoring.

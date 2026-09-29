@@ -1,8 +1,9 @@
 # Heart Disease Risk Prediction - An End-to-End MLOps Pipeline
 
-**Course:** Machine Learning Operations (MLOps) AIMLCZG523 - Assignment 01
-**Author:** Alchemist-evo
-**Code repository:** <https://github.com/Alchemist-evo/ML_ops1>
+**Course:** Machine Learning Operations (MLOps) AIMLCZG523 - Assignment 01  
+**Author:** Prajwal Shetty K P  
+**BITS ID:** 2025AE05434  
+**Code repository:** <https://github.com/Alchemist-evo/ML_ops1>  
 
 ---
 
