@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint (flake8)
+        run: flake8 .
+
+      - name: Download and prepare data
+        run: |
+          python -m src.download_data
+          python -m src.data_processing
+
+      - name: Unit tests
+        run: pytest -v --junitxml=reports/pytest-results.xml
+
+      - name: Train models
+        shell: bash  # enables pipefail so a training failure fails the job
+        run: python -m src.train 2>&1 | tee reports/train.log
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ml-pipeline-artifacts
+          path: |
+            models/
+            reports/pytest-results.xml
+            reports/train.log
+            data/processed/
+            mlflow.db
+            mlruns/
+          if-no-files-found: warn

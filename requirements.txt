@@ -1,0 +1,20 @@
+# Core ML
+pandas==3.0.6
+numpy==2.5.3
+scikit-learn==1.9.1
+joblib==1.6.0
+cloudpickle==3.1.2
+matplotlib==3.11.2
+seaborn==0.13.2
+requests==2.34.2
+# Experiment tracking
+mlflow==3.16.1
+# Serving & monitoring
+fastapi==0.141.1
+uvicorn==0.54.0
+pydantic==2.13.5
+prometheus-client==0.26.0
+# Dev / CI
+pytest==9.1.1
+flake8==7.4.1
+httpx==0.28.1
