@@ -48,3 +48,36 @@ jobs:
             mlflow.db
             mlruns/
           if-no-files-found: warn
+
+  docker:
+    needs: build-test-train
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t heart-disease-api:ci .
+
+      - name: Run container
+        run: docker run -d --name api -p 8000:8000 heart-disease-api:ci
+
+      - name: Wait for health check
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8000/health && exit 0
+            sleep 2
+          done
+          docker logs api
+          exit 1
+
+      - name: Smoke-test /predict
+        run: |
+          RESP=$(curl -sf -X POST http://localhost:8000/predict \
+            -H 'Content-Type: application/json' \
+            -d '{"age":67,"sex":1,"cp":4,"trestbps":160,"chol":286,"fbs":0,"restecg":2,"thalach":108,"exang":1,"oldpeak":1.5,"slope":2,"ca":3,"thal":3}')
+          echo "$RESP"
+          echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); assert d['prediction']==1 and 0.5<=d['confidence']<=1"
+
+      - name: Container logs
+        if: always()
+        run: docker logs api
