@@ -1,3 +1,6 @@
 [flake8]
 max-line-length = 100
 exclude = .venv,mlruns,__pycache__,notebooks
+per-file-ignores =
+    scripts/make_architecture_diagram.py:E501
+    scripts/build_report.py:E501

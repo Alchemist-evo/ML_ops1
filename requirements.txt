@@ -14,7 +14,8 @@ fastapi==0.141.1
 uvicorn==0.54.0
 pydantic==2.13.5
 prometheus-client==0.26.0
-# Dev / CI
+# Dev / CI / reporting
+markdown==3.11
 pytest==9.1.1
 flake8==7.4.1
 httpx==0.28.1
