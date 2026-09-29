@@ -1,0 +1,33 @@
+### Pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/grafana-6f46b4f7d7-56ksg             1/1     Running   0          3m28s
+pod/heart-disease-api-698c944647-ppszt   1/1     Running   0          2m
+pod/heart-disease-api-698c944647-rhkdl   1/1     Running   0          107s
+pod/prometheus-6c47cf777d-c5htq          1/1     Running   0          3m28s
+
+NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/grafana             NodePort       10.101.120.167   <none>        3000:30300/TCP   3m28s
+service/heart-disease-api   LoadBalancer   10.102.143.201   <pending>     80:31706/TCP     7m14s
+service/kubernetes          ClusterIP      10.96.0.1        <none>        443/TCP          7m41s
+service/prometheus          NodePort       10.107.126.146   <none>        9090:30090/TCP   3m28s
+
+### Prometheus targets
+heart-disease-api-698c944647-ppszt up http://10.244.0.9:8000/metrics
+heart-disease-api-698c944647-rhkdl up http://10.244.0.10:8000/metrics
+
+### Sample /metrics
+api_requests_total{endpoint="/health",method="GET",status="200"} 29.0
+api_requests_total{endpoint="/predict",method="POST",status="200"} 186.0
+api_requests_total{endpoint="/predict",method="POST",status="422"} 2.0
+model_predictions_total{label="no disease"} 14.0
+model_predictions_total{label="disease"} 172.0
+
+### Sample API logs
+2026-09-29 17:53:19,731 INFO heart_api prediction=disease probability=0.929 confidence=0.929
+2026-09-29 17:53:19,732 INFO heart_api method=POST path=/predict status=200 duration_ms=25.9
+2026-09-29 17:53:19,876 INFO heart_api prediction=disease probability=0.929 confidence=0.929
+2026-09-29 17:53:19,877 INFO heart_api method=POST path=/predict status=200 duration_ms=15.6
+2026-09-29 17:53:20,022 INFO heart_api prediction=disease probability=0.929 confidence=0.929
+2026-09-29 17:53:20,023 INFO heart_api method=POST path=/predict status=200 duration_ms=20.0
+
+URLs: API http://192.168.49.2:31706 | Prometheus http://192.168.49.2:30090 | Grafana http://192.168.49.2:30300
