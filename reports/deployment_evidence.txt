@@ -1,0 +1,38 @@
+### kubectl get nodes,deploy,pods,svc
+NAME            STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION   CONTAINER-RUNTIME
+node/minikube   Ready    control-plane   85s   v1.35.1   192.168.49.2   <none>        Debian GNU/Linux 12 (bookworm)   7.2.7-arch1-1    docker://29.2.1
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                     SELECTOR
+deployment.apps/heart-disease-api   2/2     2            2           56s   api          heart-disease-api:latest   app=heart-disease-api
+
+NAME                                     READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+pod/heart-disease-api-8575479f96-4gsph   1/1     Running   0          56s   10.244.0.3   minikube   <none>           <none>
+pod/heart-disease-api-8575479f96-v57z4   1/1     Running   0          56s   10.244.0.4   minikube   <none>           <none>
+
+NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+service/heart-disease-api   LoadBalancer   10.102.143.201   <pending>     80:31706/TCP   56s   app=heart-disease-api
+service/kubernetes          ClusterIP      10.96.0.1        <none>        443/TCP        83s   <none>
+
+### kubectl describe svc
+Name:                     heart-disease-api
+Namespace:                default
+Labels:                   app=heart-disease-api
+Annotations:              <none>
+Selector:                 app=heart-disease-api
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.102.143.201
+IPs:                      10.102.143.201
+Port:                     http  80/TCP
+TargetPort:               8000/TCP
+NodePort:                 http  31706/TCP
+Endpoints:                10.244.0.4:8000,10.244.0.3:8000
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+
+### API check via http://192.168.49.2:31706
+{"status":"ok","model":"logistic_regression"}
+{"prediction":1,"label":"disease","probability_disease":0.9286099169281121,"confidence":0.9286099169281121}
