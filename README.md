@@ -8,6 +8,8 @@ tests and CI/CD, a Docker container, a Kubernetes deployment and Prometheus/Graf
 
 **Full write-up:** [`reports/report.pdf`](reports/report.pdf) (source: [`reports/report.md`](reports/report.md))
 
+**Detailed step-by-step guide to run everything:** [`HOW_TO_RUN.md`](HOW_TO_RUN.md)
+
 | Result | Value |
 |---|---|
 | Selected model | Logistic Regression (`C=0.1`, balanced) |
