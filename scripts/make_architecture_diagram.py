@@ -61,7 +61,7 @@ arrow(6.4, 5.8, 7.1, 5.8, "git push")
 
 # Kubernetes
 group(0.2, 0.2, 9.4, 3.6, "3. Kubernetes (Minikube) - runtime")
-box(0.4, 1.9, 2.0, 1.2, "Docker image 1.1.0\nFastAPI + model baked in\n(COPY models/)", "k8s")
+box(0.4, 1.9, 2.0, 1.2, "Docker image 1.2.0\nFastAPI + model baked in\n(COPY models/)", "k8s")
 box(2.9, 2.55, 2.0, 0.7, "Pod 1 - /predict\n/health /metrics", "k8s", size=8.5)
 box(2.9, 1.65, 2.0, 0.7, "Pod 2 - /predict\n/health /metrics", "k8s", size=8.5)
 box(5.5, 1.9, 1.9, 1.2, "Service\nLoadBalancer :80\n-> pods :8000", "k8s")

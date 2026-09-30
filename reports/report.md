@@ -49,8 +49,8 @@ uvicorn src.api:app --port 8000                       # local API
 **Docker:**
 
 ```bash
-docker build -t heart-disease-api:1.1.0 .
-docker run -p 8000:8000 heart-disease-api:1.1.0
+docker build -t heart-disease-api:1.2.0 .
+docker run -p 8000:8000 heart-disease-api:1.2.0
 curl -X POST localhost:8000/predict -H 'Content-Type: application/json' \
   -d '{"age":63,"sex":1,"cp":1,"trestbps":145,"chol":233,"fbs":1,"restecg":2,"thalach":150,"exang":0,"oldpeak":2.3,"slope":3,"ca":0,"thal":6}'
 ```
@@ -255,7 +255,7 @@ service/heart-disease-api   LoadBalancer   10.102.143.201   <pending>     80:317
 
 **External access.** On Minikube, a `LoadBalancer` service only receives an external IP while `minikube tunnel` is running, and the tunnel needs root to add a network route. In the test environment it was not run, so `EXTERNAL-IP` stays `<pending>`; the service is reached through its NodePort instead (`http://192.168.49.2:31706`). On a managed cloud cluster (GKE, EKS, AKS) the same manifest receives a cloud load balancer address automatically.
 
-**A deployment lesson.** After the API was instrumented, the first redeploy silently kept running the old image: `minikube image load` does not overwrite an existing tag, and pods kept serving code without `/metrics`. Prometheus exposed this immediately (targets down with 404). The fix was to version the image tag explicitly (`1.1.0`) in both the manifest and the deploy script, rather than reusing `latest`.
+**A deployment lesson.** After the API was instrumented, the first redeploy silently kept running the old image: `minikube image load` does not overwrite an existing tag, and pods kept serving code without `/metrics`. Prometheus exposed this immediately (targets down with 404). The fix was to version the image tag explicitly (`1.2.0`) in both the manifest and the deploy script, rather than reusing `latest`.
 
 ## 10. Monitoring and Logging
 

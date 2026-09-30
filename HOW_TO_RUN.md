@@ -227,8 +227,8 @@ Open <http://localhost:8000/docs> for the interactive Swagger UI (click **POST /
 ## 10. Run the API in Docker
 
 ```bash
-docker build -t heart-disease-api:1.1.0 .
-docker run -d --name hd-api -p 8000:8000 heart-disease-api:1.1.0
+docker build -t heart-disease-api:1.2.0 .
+docker run -d --name hd-api -p 8000:8000 heart-disease-api:1.2.0
 ```
 
 Wait a few seconds, then repeat the `curl` commands from step 9; the results are identical.
@@ -256,7 +256,7 @@ docker stop hd-api && docker rm hd-api
 scripts/deploy_minikube.sh
 ```
 
-It starts Minikube if needed, builds the image with tag `1.1.0`, loads it into the cluster, applies `k8s/`, waits for the rollout and prints the API URL.
+It starts Minikube if needed, builds the image with tag `1.2.0`, loads it into the cluster, applies `k8s/`, waits for the rollout and prints the API URL.
 
 ### Option B - manual steps
 
@@ -265,8 +265,8 @@ It starts Minikube if needed, builds the image with tag `1.1.0`, loads it into t
 minikube start --driver=docker --cpus=2 --memory=3072
 
 # 2. Build the image and load it into the cluster (Minikube cannot see your local Docker images otherwise)
-docker build -t heart-disease-api:1.1.0 .
-minikube image load heart-disease-api:1.1.0
+docker build -t heart-disease-api:1.2.0 .
+minikube image load heart-disease-api:1.2.0
 
 # 3. Deploy the Deployment (2 replicas) and the LoadBalancer Service
 kubectl apply -f k8s/
@@ -305,9 +305,9 @@ kubectl logs -l app=heart-disease-api --prefix --tail=5
 `minikube image load` **does not overwrite an existing tag**, so pods would silently keep running the old code. Always use a new tag:
 
 ```bash
-docker build -t heart-disease-api:1.2.0 .
-minikube image load heart-disease-api:1.2.0
-# edit the image: line in k8s/deployment.yaml to 1.2.0, then:
+docker build -t heart-disease-api:1.3.0 .
+minikube image load heart-disease-api:1.3.0
+# edit the image: line in k8s/deployment.yaml to 1.3.0, then:
 kubectl apply -f k8s/deployment.yaml
 kubectl rollout status deployment/heart-disease-api
 ```
@@ -390,7 +390,7 @@ minikube delete          # remove the cluster completely
 
 # Docker
 docker rm -f hd-api
-docker image rm heart-disease-api:1.1.0
+docker image rm heart-disease-api:1.2.0
 ```
 
 The Minikube cluster uses roughly 3 GB of RAM while running, so stop it when you are done.
@@ -407,7 +407,7 @@ The Minikube cluster uses roughly 3 GB of RAM while running, so stop it when you
 | `{"detail":"Not Found"}` in the browser | You opened a path with no route. Use `/docs` (Swagger UI), `/health`, or `POST /predict`. (`/` now redirects to `/docs`; an older image or server started before this change does not.) Also check the port you started uvicorn on: it is `--port 8000`, not 800. |
 | `422 Unprocessable Entity` from `/predict` | Expected for missing or out-of-range fields. Send all 13 features (see step 8 for allowed values). |
 | Port 8000 or 5000 already in use | Pick another port: `uvicorn ... --port 8001`, `docker run -p 8080:8000 ...`, `mlflow ui --port 5001`. |
-| Kubernetes pods `ImagePullBackOff` / `ErrImageNeverPull` | The image is not inside the cluster. Run `minikube image load heart-disease-api:1.1.0` and make sure the tag matches `k8s/deployment.yaml`. |
+| Kubernetes pods `ImagePullBackOff` / `ErrImageNeverPull` | The image is not inside the cluster. Run `minikube image load heart-disease-api:1.2.0` and make sure the tag matches `k8s/deployment.yaml`. |
 | Pods run but `/metrics` returns 404 or code seems old | Stale image: `minikube image load` never overwrites an existing tag. Build a new tag, load it and update the manifest (see step 11, "Updating the image later"). |
 | Prometheus target `DOWN` with 404 | Same stale-image cause as above. |
 | Service `EXTERNAL-IP` stays `<pending>` | Normal on Minikube; use `minikube service heart-disease-api --url`, or run `minikube tunnel` in another terminal. |

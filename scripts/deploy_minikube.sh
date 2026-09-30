@@ -4,7 +4,7 @@ set -euo pipefail
 
 minikube status >/dev/null 2>&1 || minikube start --driver=docker --cpus=2 --memory=3072
 # Use an explicit version tag: `minikube image load` does not overwrite an existing tag.
-IMAGE_TAG="${IMAGE_TAG:-1.1.0}"
+IMAGE_TAG="${IMAGE_TAG:-1.2.0}"
 docker build -t "heart-disease-api:${IMAGE_TAG}" -t heart-disease-api:latest .
 minikube image load "heart-disease-api:${IMAGE_TAG}"
 kubectl apply -f k8s/

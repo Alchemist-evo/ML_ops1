@@ -40,8 +40,8 @@ MLflow UI: `mlflow ui --backend-store-uri sqlite:///mlflow.db` (http://127.0.0.1
 uvicorn src.api:app --port 8000
 
 # in Docker
-docker build -t heart-disease-api:1.1.0 .
-docker run -p 8000:8000 heart-disease-api:1.1.0
+docker build -t heart-disease-api:1.2.0 .
+docker run -p 8000:8000 heart-disease-api:1.2.0
 ```
 
 ```bash
