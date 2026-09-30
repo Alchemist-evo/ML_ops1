@@ -64,3 +64,9 @@ def test_request_is_logged(client, sample_record, caplog):
     with caplog.at_level("INFO", logger="heart_api"):
         client.post("/predict", json=sample_record)
     assert any("path=/predict status=200" in r.message for r in caplog.records)
+
+
+def test_root_redirects_to_docs(client):
+    r = client.get("/", follow_redirects=False)
+    assert r.status_code in (302, 307)
+    assert r.headers["location"] == "/docs"

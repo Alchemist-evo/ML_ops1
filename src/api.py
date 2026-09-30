@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, Request, Response
+from fastapi.responses import RedirectResponse
 from prometheus_client import (CONTENT_TYPE_LATEST, Counter, Histogram,
                                generate_latest)
 from pydantic import BaseModel, ConfigDict, Field
@@ -92,6 +93,11 @@ class Prediction(BaseModel):
     label: str
     probability_disease: float
     confidence: float
+
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/health")

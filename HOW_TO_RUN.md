@@ -404,6 +404,7 @@ The Minikube cluster uses roughly 3 GB of RAM while running, so stop it when you
 | `FileNotFoundError: models/model.joblib` when starting the API | The model has not been trained yet. Run `python -m src.train` first. |
 | `FileNotFoundError` for `data/processed/...` in training | Run the two commands from step 3 first. |
 | `mlflow ui` shows no experiments | Start it from the repository root and pass `--backend-store-uri sqlite:///mlflow.db`; run `python -m src.train` at least once. |
+| `{"detail":"Not Found"}` in the browser | You opened a path with no route. Use `/docs` (Swagger UI), `/health`, or `POST /predict`. (`/` now redirects to `/docs`; an older image or server started before this change does not.) Also check the port you started uvicorn on: it is `--port 8000`, not 800. |
 | `422 Unprocessable Entity` from `/predict` | Expected for missing or out-of-range fields. Send all 13 features (see step 8 for allowed values). |
 | Port 8000 or 5000 already in use | Pick another port: `uvicorn ... --port 8001`, `docker run -p 8080:8000 ...`, `mlflow ui --port 5001`. |
 | Kubernetes pods `ImagePullBackOff` / `ErrImageNeverPull` | The image is not inside the cluster. Run `minikube image load heart-disease-api:1.1.0` and make sure the tag matches `k8s/deployment.yaml`. |
